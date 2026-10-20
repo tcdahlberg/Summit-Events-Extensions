@@ -71,6 +71,26 @@ No architectural decisions are recorded as accepted in this initial pack.
 - **Affected stories:** US-04.
 - **Owner / approver:** TBD.
 
+### DEC-007 — Campaign Member handling when a matching Registration already exists
+
+- **Date:** 2026-10-19
+- **Status:** Proposed
+- **Question:** When invitation processing finds an existing Registration for the same person and Event Instance, what happens to the Campaign Member being saved? Is the Campaign Member linked to the existing Registration, saved without a link, or blocked?
+- **Options considered:**
+  1. Always save the Campaign Member and log the duplicate; the Registration is unchanged.
+  2. Always block the Campaign Member save (`addError`).
+  3. Link if the existing Registration has no Campaign Member yet; otherwise block the save.
+- **Decision:** Pending team review. Proposal (Peter): option 3. If the existing Registration has no associated Campaign Member, link it to this Campaign Member. If it already has one, block the new Campaign Member save with a clear error.
+- **Rationale:** Registrations created through the public form are adopted into the invitation process instead of being duplicated. A person cannot silently pick up two invitation memberships for one Event Instance, for example through two Campaigns linked to the same Instance.
+- **Consequences / risks:**
+  - Standard Salesforce does not allow a lookup field to Campaign Member. The link would be a text field holding the 18-character Campaign Member Id (field name to be agreed).
+  - "Already has a Campaign Member" must mean a Campaign Member that **still exists**. Otherwise, removing and re-adding a person (the US story example) would be blocked by the stale Id of the deleted member.
+  - Blocking uses per-record `addError`. Data Loader and partial-success imports save the other members; callers that insert with all-or-none (some Flows and Apex) fail the whole batch.
+  - The error message shown to admins must not reveal donor details beyond what the user can already see.
+- **Affected stories:** Sprint board US-05 "Prevent duplicate Gala registrations" (context pack US-03, criterion 4); US-02 (membership policy); US-07 (status reconciliation).
+- **Owner / approver:** @Peter-vdmeij
+- **Evidence:** Sandbox metadata review 2026-10-19: `summit__Summit_Events_Registration__c` has no Campaign or Campaign Member link and no unique field.
+
 ## How to add a decision
 
 Copy the template below and assign the next ID. Include links to the related GitHub issue, PR, Slack discussion, or meeting notes when available.
