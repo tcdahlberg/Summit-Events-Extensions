@@ -1,0 +1,88 @@
+<!--
+US-06 / US-14: landing page for a personal invitation link (?t=<token>). Continue hands the invitee to the package
+registration page for their existing Registration. See InvitationRegisterController.
+-->
+<apex:page id="InvitationRegister" showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" docType="html-5.0" cache="false" controller="InvitationRegisterController">
+    <apex:composition template="{!templateSelected}">
+        <apex:define name="metaPageTitle">
+            {!eventPage.summit__Event_Name__c}
+            <apex:outputText rendered="{!!ISBLANK(eventRegistration.summit__Event_Instance_Title__c)}" value="{! ' - ' + eventRegistration.summit__Event_Instance_Title__c}"/>
+            - Invitation
+        </apex:define>
+        <apex:define name="pageTitle"><a href="{!eventPage.summit__Event_Home_Link_URL__c}">{!eventPage.summit__Event_Home_Link_Title__c}</a></apex:define>
+        <apex:define name="scriptsHead">
+            <link href="{!URLFOR($Resource.summit__SummitEventsAssets, '/css/main.css')}" rel="stylesheet" type="text/css"/>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                dataLayer.push({
+                    'audience': '{!JSENCODE(IF(!ISBLANK(eventPage.summit__Audience__c), eventPage.summit__Audience__c, ''))}',
+                    'event': 'summit_invitation',
+                    'eventLabel': '{!JSENCODE(eventPage.summit__Event_Name__c)}{!JSENCODE(IF(!ISBLANK(eventRegistration.summit__Event_Instance_Title__c), ' - ' + eventRegistration.summit__Event_Instance_Title__c, ''))}',
+                    'page': '{!JSENCODE($CurrentPage.Name)}'
+                });
+            </script>
+        </apex:define>
+        <apex:define name="sectionNav"/>
+
+        <apex:define name="body">
+            <div class="slds-grid slds-wrap" xmlns="http://www.w3.org/2000/svg" version="1.1">
+
+                <apex:messages layout="list" styleClass="slds-col slds-p-around_x-small slds-size_1-of-1 slds-notify slds-notify_toast slds-theme_warning"/>
+
+                <apex:form id="InvitationRegisterForm" styleClass="slds-grid slds-wrap" style="width:100%">
+
+                    <!-- EVENT BREADCRUMB -->
+                    <apex:outputPanel layout="block" styleClass="slds-col slds-p-vertical_x-small slds-size_1-of-1" rendered="{!!invitationNotFound}">
+                        <nav role="navigation" aria-label="Breadcrumbs">
+                            <ol class="slds-breadcrumb slds-list_horizontal">
+                                <apex:outputPanel rendered="{!!ISBLANK(eventPage.summit__Event_Name__c)}" layout="none">
+                                    <li class="slds-breadcrumb__item slds-text-title_caps slds-p-right_x-small">{!eventPage.summit__Event_Name__c}</li>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!!ISBLANK(eventRegistration.summit__Event_Instance_Title__c)}" layout="none">
+                                    <li class="slds-breadcrumb__item slds-text-title_caps slds-p-horizontal_x-small">{!eventRegistration.summit__Event_Instance_Title__c}</li>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!!ISBLANK(eventRegistration.summit__Event_Instance_Date_Time_Formatted__c)}" layout="none">
+                                    <li class="slds-breadcrumb__item slds-text-title_caps slds-p-horizontal_x-small">{!eventRegistration.summit__Event_Instance_Date_Time_Formatted__c}</li>
+                                </apex:outputPanel>
+                            </ol>
+                        </nav>
+                    </apex:outputPanel>
+
+                    <!-- NOT FOUND: same wording as the package cancel page so a bad link reveals nothing -->
+                    <apex:outputPanel layout="block" styleClass="slds-col slds-size_1-of-1 slds-p-vertical_x-small regularLists" rendered="{!invitationNotFound}">
+                        <h2 class="slds-text-heading_large slds-p-vertical_xx-small">No event found</h2>
+                        <p class="slds-text-body slds-p-vertical_xx-small">The link you followed doesn't contain information to any registration we have on file.</p>
+                    </apex:outputPanel>
+
+                    <!-- INVITATION -->
+                    <apex:outputPanel layout="none" rendered="{!!invitationNotFound}">
+                        <div id="invitationWrapper" class="slds-col slds-size_1-of-1 slds-p-vertical_x-small regularLists">
+                            <h2 class="slds-text-heading_large">
+                                <apex:outputText value="{!eventPage.summit__Event_Name__c}"/>
+                            </h2>
+                            <apex:outputPanel layout="none" rendered="{!!ISBLANK(eventRegistration.summit__Event_Instance_Title__c)}">
+                                <h3 class="slds-text-heading_medium">
+                                    {!eventRegistration.summit__Event_Instance_Title__c}
+                                </h3>
+                            </apex:outputPanel>
+                            <p class="slds-text-body slds-p-vertical_xx-small regularLists">
+                                <apex:outputText escape="false" value="{!eventPage.summit__Event_description__c}"/>
+                            </p>
+                            <p class="slds-text-body slds-p-vertical_small">
+                                <apex:outputText rendered="{!!alreadyRegistered}" value="You have been invited to this event. Continue to complete your registration; we have filled in the details we already have."/>
+                                <apex:outputText rendered="{!alreadyRegistered}" value="You are registered for this event. Continue to review or change your registration."/>
+                            </p>
+                            <p class="slds-text-body slds-p-vertical_small">
+                                <apex:commandLink action="{!continueRegistration}" value="{!IF(alreadyRegistered, 'Review my registration', 'Continue to registration')}" id="continueRegistration" styleClass="slds-button slds-button_brand slds-p-horizontal_xx-large slds-p-vertical_xx-small" html-role="button"/>
+                            </p>
+                        </div>
+                    </apex:outputPanel>
+
+                    <div class="slds-col slds-size_1-of-1 slds-clearfix slds-p-vertical_x-small regularLists">
+                        <apex:outputText escape="false" value="{!eventPage.summit__Event_Footer__c}"/>
+                    </div>
+                </apex:form>
+            </div>
+        </apex:define>
+    </apex:composition>
+</apex:page>

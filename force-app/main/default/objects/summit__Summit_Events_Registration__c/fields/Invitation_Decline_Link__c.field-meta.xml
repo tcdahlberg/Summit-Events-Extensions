@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Invitation_Decline_Link__c</fullName>
+    <description>Link an invitee can use to decline an invitation without completing registration (US-08). Carries the same invitation token (t) as Public_Invitation_Link__c, whose last 64 characters are the token (DEC-004); blank until SummitEventsInvitationService has issued the link.</description>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK(Public_Invitation_Link__c), &quot;&quot;,
+    HYPERLINK(
+        summit__Event__r.summit__Community_Base_URL__c
+        &amp; &quot;InvitationDecline?t=&quot;
+        &amp; RIGHT(Public_Invitation_Link__c, 64)
+        ,&quot;Decline Invitation&quot;))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Invitation Decline Link</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

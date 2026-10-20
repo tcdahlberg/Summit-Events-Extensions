@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Campaign_Member_Id__c</fullName>
+    <description>18-character Id of the Campaign Member this invitation Registration belongs to (Campaign Member cannot be a lookup target). Not unique: one Campaign can be linked to several Event Instances. Maintained by InvitationRegistrationDedupe; see DEC-007.</description>
+    <externalId>true</externalId>
+    <inlineHelpText>Campaign Member that invited this person. Set by invitation automation.</inlineHelpText>
+    <label>Campaign Member Id</label>
+    <length>18</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

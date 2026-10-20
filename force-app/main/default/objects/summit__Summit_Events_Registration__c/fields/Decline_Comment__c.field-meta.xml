@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Decline_Comment__c</fullName>
+    <description>Optional free-text comment the invitee gave when declining on the InvitationDecline page (US-09). Entered by an unauthenticated guest: treat as untrusted text that may contain personal data.</description>
+    <externalId>false</externalId>
+    <label>Decline Comment</label>
+    <length>1000</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>InvitationDeclineController</members>
+        <members>InvitationDeclineControllerTest</members>
+        <members>InvitationLink</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>InvitationDecline</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>summit__Summit_Events_Registration__c.Invitation_Decline_Link__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Summit_Events_Invite_Manager</members>
+        <members>Summit_Events_Registrant_Custom</members>
+        <name>PermissionSet</name>
+    </types>
+    <version>68.0</version>
+</Package>

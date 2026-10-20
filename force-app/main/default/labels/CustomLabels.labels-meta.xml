@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Summit_Events_Public_Invitation_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Summit Events Public Invitation URL</shortDescription>
+        <value>https://ca1792073957266--full.sandbox.my.site.com/InvitationRegister</value>
+    </labels>
+</CustomLabels>
